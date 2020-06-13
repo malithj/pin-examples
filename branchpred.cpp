@@ -37,9 +37,6 @@ class COUNTER
     }
 };
 
-COUNTER CountSeen;
-COUNTER CountTaken;
-std::map<ADDRINT, std::string> disAssemblyMap;
 std::map<ADDRINT, COUNTER> counterMap;
 
 // This function is executed at each branch
@@ -53,7 +50,6 @@ static VOID AtBranch(ADDRINT ip, ADDRINT target, BOOL taken)
 // Pin calls this function every time a new instruction is encountered
 VOID Instruction(INS ins, VOID *v)
 {
-    // disAssemblyMap[INS_Address(ins)] = INS_Disassemble(ins);
     if (INS_IsBranch(ins) && INS_HasFallThrough(ins)) {
         INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)AtBranch, IARG_INST_PTR, IARG_BRANCH_TARGET_ADDR, IARG_BRANCH_TAKEN, IARG_END);
     }
